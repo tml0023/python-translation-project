@@ -28,7 +28,15 @@ def translate_sequence(rna_sequence, genetic_code):
     str
         A string of the translated amino acids.
     """
-    pass
+    rna = rna_sequence.upper()
+    protein ="" 
+    if len(rna)%3 == 0: 
+        for i in range(0, len(rna), 3): 
+            codon = rna[i:i + 3] 
+            if genetic_code[codon] == '*':
+                break
+            protein+= genetic_code[codon] 
+    return protein 
 
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
@@ -61,7 +69,7 @@ def get_all_translations(rna_sequence, genetic_code):
         A list of strings; each string is an sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+    pass    
 
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
@@ -75,7 +83,9 @@ def get_reverse(sequence):
     >>> get_reverse('AUGC')
     'CGUA'
     """
-    pass
+    sequence=sequence.upper()
+    return sequence [::-1]
+
 
 def get_complement(sequence):
     """Get the complement of a `sequence` of nucleotides.
@@ -89,7 +99,21 @@ def get_complement(sequence):
     >>> get_complement('AUGC')
     'UACG'
     """
-    pass
+    sequence=sequence.upper()
+    comp_seq = ''
+    for i in sequence:
+        if i == 'A':
+            j = 'U'
+        elif i == 'U':
+            j = 'A'
+        elif i == 'G':
+            j = 'C'
+        elif i == 'C':
+            j = 'G'
+        else:
+            print("Not a nucleotide")
+        comp_seq = comp_seq + j
+    return comp_seq
 
 def reverse_and_complement(sequence):
     """Get the reversed and complemented form of a `sequence` of nucleotides.
@@ -104,7 +128,21 @@ def reverse_and_complement(sequence):
     >>> reverse_and_complement('AUGC')
     'GCAU'
     """
-    pass
+    sequence=sequence.upper()
+    comp_seq = ''
+    for i in sequence:
+        if i == 'A':
+            j = 'U'
+        elif i == 'U':
+            j = 'A'
+        elif i == 'G':
+            j = 'C'
+        elif i == 'C':
+            j = 'G'
+        else:
+            print("Not a nucleotide")
+        comp_seq = comp_seq + j
+    return comp_seq [::-1]
 
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
