@@ -57,19 +57,17 @@ def vet_nucleotide_sequence(sequence):
     # any valid RNA and DNA sequence strings, respectively (and only strings of
     # RNA and DNA bases).
     # Read the docstring above for additional clues.
-    rna_pattern_str = r'AUCG'
-    dna_pattern_str = r'ATCG'
+    rna_pattern_str = r'^[aucgAUCG]*$'
+    dna_pattern_str = r'^[atcgATCG]*$'
     ##########################################################################
 
-###compilie the strings of RNA and DNA and if any of the sequences match the "sequence" print that there was a match 
-## I would add something more detailed to the "return" command but the docstring says that the output is nothing
     rna_pattern = re.compile(rna_pattern_str)
     dna_pattern = re.compile(dna_pattern_str)
 
     if rna_pattern.match(sequence):
         return
     if dna_pattern.match(sequence):
-        return 
+        return
     else:
         raise Exception("Invalid sequence: {0!r}".format(sequence))
 
@@ -121,10 +119,8 @@ def vet_codon(codon):
     # Change `codon_pattern_str` so that it will match any valid codons, and
     # only valid codons.
     # Read the docstring above for additional clues.
-    codon_pattern_str = r'AUG'
+    codon_pattern_str = r'^[AaCcGgUu]{3}$'
     ##########################################################################
-
-##I am not sure where you are getting the "codon_pattern_str". But once you have that use the .match method. 
 
     codon_pattern = re.compile(codon_pattern_str)
 
@@ -211,10 +207,8 @@ def find_first_orf(sequence,
     # exactly. Change `orf_pattern_str` so that it will match any open reading
     # frame.
     # Read the docstring above for additional clues.
-    orf_pattern_str = r'AUGGUAUAA'
+    orf_pattern_str = r'(' + '|'.join(start_codons) + ')([AUGC]{3})*(' + '|'.join(stop_codons) + ')'
     ##########################################################################
-
-## I am not sure how the "orf_pattern_str" is defined. Match_object will loof for the orf_pattern in the seq and return the grouped match_object. 
 
     # Create the regular expression object
     orf_pattern = re.compile(orf_pattern_str)
@@ -226,10 +220,7 @@ def find_first_orf(sequence,
 
 
 def parse_sequence_from_path(path):
-    
-##file_stream needs to be an open path. if it is not then there will be error message outputs.
-
-# Try to open the path to read from it, and handle exceptions if they
+    # Try to open the path to read from it, and handle exceptions if they
     # arrise
     try:
         file_stream = open(path, 'r')
@@ -253,12 +244,8 @@ def parse_sequence_from_path(path):
         sequence += line.strip()
     return sequence
 
-##Once sequence is createed then we will add each line of the sequence into the string sequence. 
-## then sequence is returned to the output 
 
 def main():
-##import argparse so we can use the command line arguements in our script.
-
     import argparse
 
     # Create a command-line parser object
@@ -293,7 +280,6 @@ def main():
             help = ('A stop codon. This option can be used multiple times '
                     'if there are multiple stop codons. '
                     'Default: {0}.'.format(" ".join(default_stop_codons))))
-##we add all the different arguement optinos that can be added to the command using the parser
 
     # Parse the command-line arguments into a 'dict'-like container
     args = parser.parse_args()
@@ -304,7 +290,6 @@ def main():
         sequence = parse_sequence_from_path(args.sequence)
     else:
         sequence = args.sequence
-
 
     # Check to see if start/stop codons were provided by the caller. If not,
     # use the defaults.
